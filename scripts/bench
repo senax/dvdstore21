@@ -1,0 +1,36 @@
+#!/bin/bash
+
+echo "run test"
+
+#echo start apache in background, run tests
+#sed -i 's/^mysql.default_host.*$/mysql.default_host = 127.0.0.1/' /etc/php.ini
+#sed -i 's/^mysql.default_user.*$/mysql.default_user = web/' /etc/php.ini
+#sed -i 's/^mysql.default_password.*$/mysql.default_password = web/' /etc/php.ini
+#
+#/usr/sbin/httpd >> /dev/null 2>&1
+
+#curl -vL http://localhost:80/ds2/index.html
+
+cd /root/ds21/ds2
+
+cat > DriverConfig.txt <<EOF
+target=$MYSQL_HOST
+n_threads=$THREADS
+ramp_rate=5
+run_time=0
+db_size=${SIZE}${SIZE_UNIT}
+warmup_time=1
+think_time=$THINK
+pct_newcustomers=20
+n_searches=3
+search_batch_size=5
+n_line_items=5
+virt_dir=ds2
+page_type=php
+windows_perf_host=
+linux_perf_host=
+detailed_view=N
+EOF
+
+mono drivers/my_ds2xdriver.exe --config_file=DriverConfig.txt
+

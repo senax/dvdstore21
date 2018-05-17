@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "setup test"
+
+cd /root/ds21/ds2
+
+perl Install_DVDStore.pl  << EOF
+$SIZE
+$SIZE_UNIT
+MYSQL
+LINUX
+EOF
+
+cd /root/ds21/ds2/mysqlds2
+#export MYSQL_HOST=127.0.0.1
+echo MYSQL_HOST=$MYSQL_HOST
+sh mysqlds2_create_all.sh
+
+
+echo cd /root/ds21/ds2
+echo mono drivers/ds2webdriver.exe --config_file=DriverConfig.txt
+
